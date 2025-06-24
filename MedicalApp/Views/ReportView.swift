@@ -11,7 +11,7 @@ struct ReportView: View {
     @State private var whoopData = false
     @StateObject private var oauthFlow = OAuthFlow()
     
-    private var isAuthorized: Bool = (MyLocalStorage.myValue != "")
+    private var isAuthorized: Bool = (MyLocalStorage.refreshTokenGetOrSet != "")
     var body: some View {
         if(!isAuthorized) {
             authView()
@@ -123,8 +123,8 @@ struct ReportView: View {
                 } label: {
                     Text("CLICK")
                 }
-                .disabled(MyLocalStorage.myValue != "")
-                
+//                .disabled(MyLocalStorage.myValue != "")
+//                
                 Button {
                     
                 } label: {

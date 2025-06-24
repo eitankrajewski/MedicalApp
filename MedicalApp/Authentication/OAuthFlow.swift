@@ -95,8 +95,8 @@ class OAuthFlow: NSObject, ASWebAuthenticationPresentationContextProviding, Obse
             let defaults = UserDefaults.standard
             defaults.set(accessToken, forKey: DefaultKeys.accessToken)
             defaults.set(refreshToken, forKey: DefaultKeys.refreshToken)
-            MyLocalStorage.myValue = refreshToken
-            print("\(MyLocalStorage.myValue)")
+            MyLocalStorage.refreshTokenGetOrSet = refreshToken
+            print("\(MyLocalStorage.refreshTokenGetOrSet)")
             
             
             
@@ -398,17 +398,17 @@ struct DefaultKeys {
         static let maxHeartRate = ""
     }
 
-class MyLocalStorage {
-    
-    static var refreshToken = ""
-    
-    public static var myValue: String {
-        
-        set {
-            UserDefaults.standard.set(newValue, forKey: refreshToken)
-        }
-        get {
-            return UserDefaults.standard.string(forKey: refreshToken) ?? "ERROR"
-        }
-    }
-}
+//class MyLocalStorage {
+//    
+//    static var refreshToken = ""
+//    
+//    public static var myValue: String {
+//        
+//        set {
+//            UserDefaults.standard.set(newValue, forKey: refreshToken)
+//        }
+//        get {
+//            return UserDefaults.standard.string(forKey: refreshToken) ?? "ERROR"
+//        }
+//    }
+//}
