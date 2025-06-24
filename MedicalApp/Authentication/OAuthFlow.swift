@@ -10,7 +10,7 @@
 import AuthenticationServices
 import WebKit
 
-class OAuthFlow: NSObject, ASWebAuthenticationPresentationContextProviding, ObservableObject{
+class OAuthFlow: NSObject, ASWebAuthenticationPresentationContextProviding, ObservableObject {
     @Published var authCode: String = ""
     func presentationAnchor(for session: ASWebAuthenticationSession) -> ASPresentationAnchor {
         return UIApplication.shared.windows.first { $0.isKeyWindow } ?? ASPresentationAnchor()
@@ -57,6 +57,10 @@ class OAuthFlow: NSObject, ASWebAuthenticationPresentationContextProviding, Obse
         session?.start()
     }
     
+    private func somethingFailed() -> Bool {
+        return false
+    }
+    
     private func getToken(code: String) {
         let tokenURL = URL(string: "https://api.prod.whoop.com/oauth/oauth2/token")!
         var request = URLRequest(url: tokenURL)
@@ -91,6 +95,8 @@ class OAuthFlow: NSObject, ASWebAuthenticationPresentationContextProviding, Obse
             let defaults = UserDefaults.standard
             defaults.set(accessToken, forKey: DefaultKeys.accessToken)
             defaults.set(refreshToken, forKey: DefaultKeys.refreshToken)
+            MyLocalStorage.myValue = refreshToken
+            print("\(MyLocalStorage.myValue)")
             
             
             
@@ -376,7 +382,7 @@ class OAuthFlow: NSObject, ASWebAuthenticationPresentationContextProviding, Obse
         case invalidData
     }
     
-    struct DefaultKeys {
+struct DefaultKeys {
         static let accessToken = ""
         static let refreshToken = ""
         static let decodedData = ""
@@ -391,3 +397,18 @@ class OAuthFlow: NSObject, ASWebAuthenticationPresentationContextProviding, Obse
         static let averageHeartRate = ""
         static let maxHeartRate = ""
     }
+
+class MyLocalStorage {
+    
+    static var refreshToken = ""
+    
+    public static var myValue: String {
+        
+        set {
+            UserDefaults.standard.set(newValue, forKey: refreshToken)
+        }
+        get {
+            return UserDefaults.standard.string(forKey: refreshToken) ?? "ERROR"
+        }
+    }
+}

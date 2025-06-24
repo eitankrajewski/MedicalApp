@@ -17,14 +17,20 @@ struct SymptomView: View {
     var body: some View {
         
         
+        
         ZStack {
+            ProgressView(value: progress) {
+                Text("Progress: \(Int(progress))")
+            }
+            .progressViewStyle(CustomProgressViewStyle())
+            .offset(y:-350)
+            .zIndex(100000)
+            
             LinearGradient(colors: [Color.cyan.opacity(0.7)], startPoint: .topLeading, endPoint: .bottomTrailing)
                 .edgesIgnoringSafeArea(.all)
             
             
-            ProgressView {
-                
-            }
+            
             
             TabView {
                 VStack(alignment: .center) {
@@ -139,6 +145,10 @@ struct SymptomView: View {
                             .cornerRadius(10)
                     }
                     .padding([.top], 20)
+                    
+                    Text(progress != 100.0 ? "Please make sure to complete **all** fields before continuing." : "")
+                        .frame(width: 250)
+                        .padding(10)
                     
                     
                     Spacer()
