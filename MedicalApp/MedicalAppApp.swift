@@ -12,8 +12,10 @@ struct MedicalAppApp: App {
     @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
     var body: some Scene {
         WindowGroup {
-            TabView {
-                ReportView()
+            if(MyLocalStorage.isRegisteredGetOrSet == "false") {
+                OnboardingView()
+            } else {
+                    ContentView()
             }
             
         }

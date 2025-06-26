@@ -21,6 +21,12 @@ class MyLocalStorage {
         }
     }
     
+    func loadName() {
+        if let savedName = UserDefaults.standard.string(forKey: MyLocalStorage.patientName) {
+            MyLocalStorage.patientName = savedName
+        }
+    }
+    
     static var doctorName = ""
     
     public static var doctorNameGetOrSet: String {
@@ -44,6 +50,36 @@ class MyLocalStorage {
             return UserDefaults.standard.string(forKey: doctorEmail) ?? "ERROR"
         }
     }
+    
+    static var isRegistered = "false"
+    
+    public static var isRegisteredGetOrSet: String {
+        
+        set {
+            UserDefaults.standard.setValue(newValue, forKey: isRegistered)
+        }
+        get {
+            return UserDefaults.standard.string(forKey: isRegistered) ?? "ERROR"
+        }
+    }
+    
+    static var symptomReports = [""]
+    
+    public static var symptomsReportsGetOrSet: [String] {
+        
+        set {
+            UserDefaults.standard.set(newValue, forKey: "symptomReport")
+        }
+        get {
+            return UserDefaults.standard.stringArray(forKey: "symptomReport") ?? [String]()
+        }
+    }
+    
+//    func addReport(value: SymptomReport) {
+//        let newArr: [Any] = MyLocalStorage.symptomsReportsGetOrSet.append(value)
+//        UserDefaults.standard.set(newValue, forKey: "symptomReport")
+//    }
+    
     
     static var refreshToken = ""
     

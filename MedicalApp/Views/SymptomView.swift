@@ -14,6 +14,7 @@ struct SymptomView: View {
     @State private var symptoms = ""
     @State private var recurrent = false
     @State private var lastComments = ""
+    @StateObject private var viewModel = SymptomReport()
     var body: some View {
         
         
@@ -132,7 +133,28 @@ struct SymptomView: View {
                     .cornerRadius(10)
                     
                     Button {
+                        if(symptoms == "" || feeling == 0) { return }
+                        else {
+                            print("Started here")
+                            
+                            let report = """
+                                REPORT AS OF \(Date.now)
+                                SYMPTOMS: \(symptoms)
+                                PAIN LEVEL: \(feeling)
+                                RECURRENT: \(recurrent)
+                                LAST COMMENTS: \(lastComments == "" ? lastComments : "NONE")
+                                """
+                            
+                            print("Got here.")
+                            var currentArray = MyLocalStorage.symptomsReportsGetOrSet
+                            currentArray.append(report)
+                            MyLocalStorage.symptomsReportsGetOrSet = currentArray
+                            print(MyLocalStorage.symptomsReportsGetOrSet)
+                            
+                            
+//                            MyLocalStorage.symptomsReportsGetOrSet
                         
+                        }
                     } label: {
                         Text("Submit")
                             .font(.system(size: 20))
